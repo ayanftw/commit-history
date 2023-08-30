@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "git-history"
+version = "0.1.0"
+description = ""
+authors = ["Liam <lbrown@rkh.co.uk>"]
+readme = "README.md"
+packages = [{include = "git_history"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydriller = "^2.5.1"
+click = "^8.1.7"
+
+
+[tool.poetry.group.dev.dependencies]
+ipdb = "^0.13.13"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
