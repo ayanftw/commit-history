@@ -15,6 +15,29 @@ click = "^8.1.7"
 [tool.poetry.group.dev.dependencies]
 ipdb = "^0.13.13"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "ipdb<1.0.0,>=0.13.13",
+]
+
+[tool.pdm.build]
+includes = ["git_history"]
+[project]
+name = "git-history"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Liam", email = "lbrown@rkh.co.uk"},
+]
+dependencies = [
+    "pydriller<3.0.0,>=2.5.1",
+    "click<9.0.0,>=8.1.7",
+]
+requires-python = "<4.0,>=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+

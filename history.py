@@ -31,23 +31,27 @@ def commits_by_date(since: datetime):
     for url in urls:
         try:
             for commit in Repository(
-                url, only_authors=["lbrown"], since=since
+                url, only_authors=["lbrown"], since=since, include_refs=True
             ).traverse_commits():
                 commits[commit.author_date.date()][commit.project_name].append(commit)
         except GitCommandError:
             pass
 
     for date, data in sorted(commits.items()):
-        click.secho(f"┌{'─'*12}┐", fg="green")
-        click.secho(f"│ {date} │", fg="green")
-        click.secho(f"└{'─'*12}┘\n", fg="green")
+        datestr = f"{date:%a %Y-%m-%d}"
+        click.secho(f"┌{'─'*(len(datestr) + 2)}┐", fg="green")
+        click.secho(f"│ {datestr} │", fg="green")
+        click.secho(f"└{'─'*(len(datestr) + 2)}┘\n", fg="green")
 
         for repo, commits in data.items():
             msg = f"{repo}: {len(commits)} commits"
             click.secho(msg, fg=(255, 12, 128))
             for commit in commits:
                 first, *rest = commit.msg.splitlines()
-                click.secho(f"{' '*COMMIT_INDENT}{commit.author_date:%H:%M} {first}")
+                branches = ", ".join(commit.branches)
+                click.secho(
+                    f"{' '*COMMIT_INDENT}{commit.author_date:%H:%M} {first} ({branches})"
+                )
                 for r in rest:
                     click.secho(f"{' '*(COMMIT_INDENT + 5)} {first}")
 
